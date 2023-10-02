@@ -16,5 +16,5 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: simple
-          package-name: deno-redmine
+          package-name: deno_redmine
           include-v-in-tag: false
