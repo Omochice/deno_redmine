@@ -8,7 +8,7 @@ import {
   transform,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 
-export const inputProjectSchema = object({
+const inputProjectSchema = object({
   id: number(),
   name: string(),
   identifier: string(),
