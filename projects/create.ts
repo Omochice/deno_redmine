@@ -1,7 +1,12 @@
 import { err, ok, Result } from "npm:neverthrow@6.0.0";
 import { join } from "https://deno.land/std@0.197.0/path/mod.ts";
 import type { Context } from "../context.ts";
-import { $array, $object, $string } from "npm:lizod@0.2.6";
+import {
+  array,
+  is,
+  object,
+  string,
+} from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 
 type Project = {
   name: string;
@@ -19,6 +24,10 @@ type Project = {
   issue_custom_field_ids?: string[];
   custom_field_values?: Record<string, string>;
 };
+
+const errorSchema = object({
+  errors: array(string()),
+});
 
 export async function create(
   project: Project,
@@ -38,7 +47,7 @@ export async function create(
   );
   if (!response.ok) {
     const json = await response.json();
-    if (!$object({ errors: $array($string) })(json)) {
+    if (!is(errorSchema, json)) {
       return err(new Error(`${response.status}: ${response.statusText}`));
     }
     return err(new Error(JSON.stringify(json.errors)));

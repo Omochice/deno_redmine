@@ -1,54 +1,42 @@
 import {
-  $boolean,
-  $number,
-  $object,
-  $opt,
-  $string,
-  type Infer,
-} from "npm:lizod@0.2.6";
+  boolean,
+  number,
+  object,
+  optional,
+  type Output,
+  string,
+  transform,
+} from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 
-export const validateProject = $object({
-  id: $number,
-  name: $string,
-  identifier: $string,
-  description: $opt($string),
-  homepage: $opt($string),
-  status: $number,
-  is_public: $opt($boolean),
-  inherit_members: $boolean,
-  enable_new_ticket_message: $opt($number),
-  new_ticket_message: $opt($string),
-  default_version: $opt($object({
-    id: $number,
-    name: $string,
+export const inputProjectSchema = object({
+  id: number(),
+  name: string(),
+  identifier: string(),
+  description: optional(string()),
+  homepage: optional(string()),
+  status: number(),
+  is_public: optional(boolean()),
+  inherit_members: boolean(),
+  enable_new_ticket_message: optional(number()),
+  new_ticket_message: optional(string()),
+  default_version: optional(object({
+    id: number(),
+    name: string(),
   })),
-  created_on: $string,
-  updated_on: $string,
-  parent: $opt($object({
-    id: $number,
-    name: $string,
+  created_on: string(),
+  updated_on: string(),
+  parent: optional(object({
+    id: number(),
+    name: string(),
   })),
 });
 
-type Time = {
-  created_on: Date;
-  updated_on: Date;
-};
-
-export type Project =
-  & Omit<Infer<typeof validateProject>, keyof Time>
-  & Time;
-
-/**
- * Convert date field on response to Date class
- *
- * @param project project response
- * @return replaced one
- */
-export function convertDate(project: Infer<typeof validateProject>): Project {
+export const projectSchema = transform(inputProjectSchema, (input) => {
   return {
-    ...project,
-    created_on: new Date(project.created_on),
-    updated_on: new Date(project.updated_on),
+    ...input,
+    created_on: new Date(input.created_on),
+    updated_on: new Date(input.updated_on),
   };
-}
+});
+
+export type Project = Output<typeof projectSchema>;
