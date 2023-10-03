@@ -1,8 +1,8 @@
 import {
   boolean,
+  nullish,
   number,
   object,
-  optional,
   type Output,
   string,
   transform,
@@ -12,20 +12,20 @@ const inputProjectSchema = object({
   id: number(),
   name: string(),
   identifier: string(),
-  description: optional(string()),
-  homepage: optional(string()),
+  description: nullish(string()),
+  homepage: nullish(string()),
   status: number(),
-  is_public: optional(boolean()),
+  is_public: nullish(boolean()),
   inherit_members: boolean(),
-  enable_new_ticket_message: optional(number()),
-  new_ticket_message: optional(string()),
-  default_version: optional(object({
+  enable_new_ticket_message: nullish(number()),
+  new_ticket_message: nullish(string()),
+  default_version: nullish(object({
     id: number(),
     name: string(),
   })),
   created_on: string(),
   updated_on: string(),
-  parent: optional(object({
+  parent: nullish(object({
     id: number(),
     name: string(),
   })),
