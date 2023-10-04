@@ -1,11 +1,12 @@
-import { $object } from "npm:lizod@0.2.6";
+import { object, safeParse } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 import { err, ok, Result } from "npm:neverthrow@6.0.0";
 import { join } from "https://deno.land/std@0.197.0/path/mod.ts";
-import { convertDate, type Project, validateProject } from "./type.ts";
-import { makeValidateError } from "../error.ts";
+import { type Project, projectSchema } from "./type.ts";
 import type { Context } from "../context.ts";
 
-const validateResult = $object({ project: validateProject });
+const schema = object({
+  project: projectSchema,
+});
 
 export async function show(
   id: number,
@@ -26,10 +27,11 @@ export async function show(
     return err(new Error(`${response.status}: ${response.statusText}`));
   }
   const json = await response.json();
-  const ctx = { errors: [] };
-  if (!validateResult(json, ctx)) {
-    return err(makeValidateError(json, ctx));
+  const parsed = safeParse(schema, json);
+  if (!parsed.success) {
+    return err(
+      new Error("Fetched project has invalid schema", { cause: parsed.issues }),
+    );
   }
-
-  return ok(convertDate(json.project));
+  return ok(parsed.output.project);
 }
