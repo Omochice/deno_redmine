@@ -7,30 +7,14 @@ import {
   object,
   string,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
-
-type Project = {
-  name: string;
-  /** need match /[a-zA-Z0-9\-_]{1,100} */
-  identifier: string;
-  description?: string;
-  homepage?: string;
-  is_public?: boolean;
-  parent_id?: number;
-  inherit_members?: boolean;
-  default_assigned_to_id?: number;
-  default_version_id?: string;
-  tracker_ids?: number[];
-  enable_module_names?: string[];
-  issue_custom_field_ids?: string[];
-  custom_field_values?: Record<string, string>;
-};
+import type { ProjectRequest } from "./type.ts";
 
 const errorSchema = object({
   errors: array(string()),
 });
 
 export async function create(
-  project: Project,
+  project: ProjectRequest,
   context: Context,
 ): Promise<Result<void, Error>> {
   const url = new URL(join(context.endpoint, "projects.json"));
