@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/Omochice/deno_redmine/compare/0.1.0...0.2.0) (2023-10-05)
+
+
+### Features
+
+* add function to update project ([#10](https://github.com/Omochice/deno_redmine/issues/10)) ([624089f](https://github.com/Omochice/deno_redmine/commit/624089f2c1e0246f808ffcecdc8bcb20c3c7e8bb))
+
 ## 0.1.0 (2023-10-02)
 
 
