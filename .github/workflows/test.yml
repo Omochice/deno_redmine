@@ -1,0 +1,16 @@
+name: deno test
+
+on:
+  workflow_run:
+    workflows: ["deno basic ci"]
+    types: [completed]
+
+jobs:
+  deno_test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+      - name: run deno test
+        run: deno task test
