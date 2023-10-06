@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
       - name: Run tests with coverage report output
         run:
           deno task:coverage
