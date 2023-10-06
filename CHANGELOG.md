@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/Omochice/deno_redmine/compare/0.2.0...0.3.0) (2023-10-06)
+
+
+### Features
+
+* add function to archive/unarvhice project ([#14](https://github.com/Omochice/deno_redmine/issues/14)) ([9a2ee57](https://github.com/Omochice/deno_redmine/commit/9a2ee57f281721c0718071aaee61f1ce56d4a250))
+
 ## [0.2.0](https://github.com/Omochice/deno_redmine/compare/0.1.0...0.2.0) (2023-10-05)
 
 
