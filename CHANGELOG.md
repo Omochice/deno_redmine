@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/Omochice/deno_redmine/compare/0.3.0...0.4.0) (2023-10-08)
+
+
+### Features
+
+* Add client class for about project ([#18](https://github.com/Omochice/deno_redmine/issues/18)) ([935bb1d](https://github.com/Omochice/deno_redmine/commit/935bb1da3cb7276588309921ed26c9f8bf602c11))
+* Add function to delete project ([#16](https://github.com/Omochice/deno_redmine/issues/16)) ([0d80094](https://github.com/Omochice/deno_redmine/commit/0d800948343cefe1ea819a55c73cc19de18ea453))
+
 ## [0.3.0](https://github.com/Omochice/deno_redmine/compare/0.2.0...0.3.0) (2023-10-06)
 
 
