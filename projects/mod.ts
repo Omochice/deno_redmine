@@ -1,4 +1,4 @@
-import { Result } from "npm:neverthrow@6.0.0";
+import { Result } from "npm:neverthrow@6.1.0";
 import type { Context } from "../context.ts";
 import { fetchList } from "./list.ts";
 import { show } from "./show.ts";
