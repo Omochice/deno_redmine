@@ -1,6 +1,6 @@
 import { object, safeParse } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 import { err, ok, Result } from "npm:neverthrow@6.1.0";
-import { join } from "https://deno.land/std@0.204.0/path/mod.ts";
+import { join } from "https://deno.land/std@0.205.0/path/mod.ts";
 import { ShowIssue, showIssueSchema } from "./type.ts";
 import type { Context } from "../context.ts";
 
