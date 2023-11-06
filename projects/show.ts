@@ -8,6 +8,26 @@ const schema = object({
   project: projectSchema,
 });
 
+/**
+ * Show the project of given ID.
+ *
+ * @param id Project ID
+ * @param context Context for connecting Redmine
+ * @return Result type Project or Error
+ * @example
+ * ```ts
+ * const context = {
+ *   endpoint: "your-redmine-endpoint",
+ *   apiKey: "your-api-key",
+ * }
+ *
+ * const result = await show(1, context) // existing project id
+ * // Ok({ id: 1, name: "...", ... })
+ *
+ * const result2 = await show(2, context) // non-existing project id
+ * // Err(...)
+ * ```
+ */
 export async function show(
   id: number,
   context: Context,
