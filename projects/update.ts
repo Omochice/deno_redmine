@@ -17,6 +17,27 @@ export type ProjectUpdateInformation = Partial<
   Omit<ProjectRequest, "identifier">
 >;
 
+/**
+ * Update the project of given id
+ *
+ * @param id Project ID
+ * @param project Schema to update
+ * @param context Context for connecting Redmine
+ * @return Result type void or Error
+ * @example
+ * ```ts
+ * const context = {
+ *   endpoint: "your-redmine-endpoint",
+ *   apiKey: "your-api-key",
+ * }
+ *
+ * const result = update(1, { name: "some update name" }, context)
+ * // Ok(undefined)
+ *
+ * const result2 = update(2, { name: "some update name" }, context) // non-existing ID
+ * // Err(Error("404: Not Found"))
+ * ```
+ */
 export async function update(
   id: number,
   project: ProjectUpdateInformation,
