@@ -13,6 +13,26 @@ const errorSchema = object({
   errors: array(string()),
 });
 
+/**
+ * Creates a the project
+ *
+ * @param project Project attributes
+ * @param context Context for connecting Redmine
+ * @return Result type void or Error
+ * @example
+ * ```ts
+ * const context = {
+ *   endpoint: "your-redmine-endpoint",
+ *   apiKey: "your-api-key",
+ * }
+ *
+ * const result = await create({ name: "sample-project", identifier: "sample" }) // non-duplicated identifer
+ * // Ok(undefined)
+ *
+ * const result2 = await create({ name: "sample-projecte", identifier: "sample" }) // duplicated identifer
+ * // Err(Error: ["Identifier has already been taken"])
+ * ```
+ */
 export async function create(
   project: ProjectRequest,
   context: Context,
