@@ -4,52 +4,64 @@ import {
   object,
   string,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
-import { err, ok, Result } from "npm:neverthrow@6.1.0";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.1.0";
 import { join } from "https://deno.land/std@0.205.0/path/mod.ts";
 import type { Context } from "../context.ts";
+import { convertError } from "../error.ts";
 
 const errorSchema = object({
   errors: array(string()),
 });
 
-async function internal(
+function internal(
   id: number,
   method: "archive" | "unarchive",
   context: Context,
-): Promise<Result<void, Error>> {
+): ResultAsync<void, Error> {
   const url = new URL(
     join(context.endpoint, "projects", `${id}`, `${method}.json`),
   );
-  const response = await fetch(
-    url,
-    {
+  return ResultAsync.fromPromise(
+    fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Redmine-API-Key": context.apiKey,
       },
-    },
-  );
-  if (!response.ok) {
-    const json = await response.json();
-    if (!is(errorSchema, json)) {
-      return err(new Error(`${response.status}: ${response.statusText}`));
-    }
-    return err(new Error(JSON.stringify(json.errors)));
-  }
-  return ok(undefined);
+    }),
+    convertError("Unexpected Error"),
+  )
+    .andThen((r: Response) => r.ok ? okAsync(undefined) : errAsync(r))
+    .orElse((e: Response | Error) => {
+      if (e instanceof Error) {
+        return errAsync(e);
+      }
+      return ResultAsync.fromPromise(
+        e.json(),
+        convertError("Unexpected Error"),
+      );
+    })
+    .andThen((r: unknown) => {
+      if (r === undefined) {
+        return okAsync(undefined);
+      }
+      if (is(errorSchema, r)) {
+        return errAsync(new Error(JSON.stringify(r.errors)));
+      }
+      return errAsync(new Error("Unexpected Error", { cause: r }));
+    });
 }
 
-export async function archive(
+export function archive(
   id: number,
   context: Context,
-): Promise<Result<void, Error>> {
-  return await internal(id, "archive", context);
+): ResultAsync<void, Error> {
+  return internal(id, "archive", context);
 }
 
-export async function unarchive(
+export function unarchive(
   id: number,
   context: Context,
-): Promise<Result<void, Error>> {
-  return await internal(id, "unarchive", context);
+): ResultAsync<void, Error> {
+  return internal(id, "unarchive", context);
 }
