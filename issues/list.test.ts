@@ -102,7 +102,8 @@ Deno.test("test for redmine issue 'list' endpoint", async (t) => {
           limit: 25,
         }),
         { status: 200 },
-      );
+      )
+      .times(2);
     const e = await listIssues(context);
     assert(e.isOk());
   });
