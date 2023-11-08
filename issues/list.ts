@@ -1,13 +1,15 @@
 import type { Context } from "../context.ts";
 import {
   array,
+  is,
   number,
   object,
   safeParse,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
-import { err, ok, Result } from "npm:neverthrow@6.1.0";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.1.0";
 import { join } from "https://deno.land/std@0.205.0/path/mod.ts";
 import { type Issue, issueSchema } from "./type.ts";
+import { convertError } from "../error.ts";
 
 const responseSchema = object({
   issues: array(issueSchema),
@@ -64,54 +66,87 @@ function convertOptionToObject(
   return Object.fromEntries(entries);
 }
 
-export async function listIssues(
+export function listIssues(
   context: Context,
   option: Partial<Option> = {},
-): Promise<Result<Issue[], Error>> {
-  let currentOffset = 0;
+): ResultAsync<Issue[], Error> {
   const limit = 100;
+  const opts: RequestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Redmine-API-Key": context.apiKey,
+    },
+  };
+  const convertedOption = convertOptionToObject(option);
+
+  return fetchNumberOfIssues(context, option)
+    .andThen((n) => {
+      const results: ResultAsync<Response, Error>[] = [];
+      for (let offset = 0; offset < n; offset += limit) {
+        const endpoint = new URL(join(context.endpoint, "issues.json"));
+        endpoint.search = new URLSearchParams({
+          limit: `${limit}`,
+          offset: `${offset}`,
+          ...convertedOption,
+        }).toString();
+        results.push(
+          ResultAsync.fromPromise(
+            fetch(endpoint, opts),
+            convertError("Unexpected Error1"),
+          ),
+        );
+      }
+      return ResultAsync.combine(results);
+    })
+    .andThen((r) =>
+      ResultAsync.fromPromise(
+        Promise.all(r.map((e) => e.json())),
+        convertError("Unexpected Error"),
+      )
+    )
+    .andThen((r: unknown[]) => {
+      const issues: Issue[][] = [];
+      for (const issue of r) {
+        const parsed = safeParse(responseSchema, issue);
+        if (!parsed.success) {
+          return errAsync(
+            new Error("Unexpected Error2", { cause: parsed.issues }),
+          );
+        }
+        issues.push(parsed.output.issues);
+      }
+      return okAsync(issues.flat());
+    });
+}
+
+function fetchNumberOfIssues(
+  context: Context,
+  option: Partial<Option>,
+): ResultAsync<number, Error> {
   const endpoint = new URL(join(context.endpoint, "issues.json"));
+  endpoint.search = new URLSearchParams({
+    limit: "1",
+    offset: "0",
+    ...convertOptionToObject(option),
+  }).toString();
 
-  const projects: Issue[][] = [];
-  while (true) {
-    endpoint.search = new URLSearchParams({
-      limit: `${limit}`,
-      offset: `${currentOffset}`,
-      ...convertOptionToObject(option),
-    }).toString();
-    const response = await fetch(
-      endpoint,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Redmine-API-Key": context.apiKey,
-        },
+  return ResultAsync.fromPromise(
+    fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Redmine-API-Key": context.apiKey,
       },
-    );
-    if (!response.ok) {
-      return err(new Error(`${response.status}: ${response.statusText}`));
-    }
-    const json = await response.json();
-
-    const parsed = safeParse(responseSchema, json);
-    if (!parsed.success) {
-      return err(
-        new Error("Fetched project has invalid schema", {
-          cause: parsed.error,
-        }),
-      );
-    }
-
-    projects.push(parsed.output.issues);
-
-    currentOffset += limit;
-    if (
-      currentOffset >= json.total_count ||
-      currentOffset >= (option.limit ?? Infinity)
-    ) {
-      break;
-    }
-  }
-  return ok(projects.flat());
+    }),
+    convertError("Unexpected Error2"),
+  )
+    .andThen((r: Response) =>
+      ResultAsync.fromPromise(r.json(), convertError("Unexpected Error4"))
+    )
+    .andThen((r: unknown) => {
+      return is(object({ total_count: number() }), r)
+        ? okAsync(r.total_count)
+        : errAsync(new Error("Unexpected Error5", { cause: r }));
+    });
 }
