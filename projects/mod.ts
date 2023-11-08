@@ -1,4 +1,4 @@
-import { Result } from "npm:neverthrow@6.1.0";
+import { ResultAsync } from "npm:neverthrow@6.1.0";
 import type { Context } from "../context.ts";
 import { fetchList } from "./list.ts";
 import { show } from "./show.ts";
@@ -20,8 +20,8 @@ export class ProjectClient {
    * Returns all projects
    * This includes all public projects and private projects where user have access to.
    */
-  async list(): Promise<Result<Project[], Error>> {
-    return await fetchList(this.#context);
+  list(): ResultAsync<Project[], Error> {
+    return fetchList(this.#context);
   }
 
   /**
@@ -29,10 +29,10 @@ export class ProjectClient {
    *
    * @param id Project identifier
    */
-  async show(
+  show(
     id: number,
-  ): Promise<Result<Project, Error>> {
-    return await show(id, this.#context);
+  ): ResultAsync<Project, Error> {
+    return show(id, this.#context);
   }
 
   /**
@@ -40,10 +40,10 @@ export class ProjectClient {
    *
    * @param project The project attributes
    */
-  async create(
+  create(
     project: ProjectRequest,
-  ): Promise<Result<void, Error>> {
-    return await create(project, this.#context);
+  ): ResultAsync<void, Error> {
+    return create(project, this.#context);
   }
 
   /**
@@ -52,11 +52,11 @@ export class ProjectClient {
    * @param id Project identifier
    * @param project The project attributes to update it
    */
-  async update(
+  update(
     id: number,
     project: ProjectUpdateInformation,
-  ): Promise<Result<void, Error>> {
-    return await update(id, project, this.#context);
+  ): ResultAsync<void, Error> {
+    return update(id, project, this.#context);
   }
 
   /**
@@ -64,8 +64,8 @@ export class ProjectClient {
    *
    * @param id Project identifier
    */
-  async delete(id: number): Promise<Result<void, Error>> {
-    return await deleteProject(id, this.#context);
+  delete(id: number): ResultAsync<void, Error> {
+    return deleteProject(id, this.#context);
   }
 
   /**
@@ -75,8 +75,8 @@ export class ProjectClient {
    *
    * @note This feature is available since Redmine 5.0.
    */
-  async archive(id: number): Promise<Result<void, Error>> {
-    return await archive(id, this.#context);
+  archive(id: number): ResultAsync<void, Error> {
+    return archive(id, this.#context);
   }
 
   /**
@@ -86,7 +86,7 @@ export class ProjectClient {
    *
    * @note This feature is available since Redmine 5.0.
    */
-  async unarchive(id: number): Promise<Result<void, Error>> {
-    return await unarchive(id, this.#context);
+  unarchive(id: number): ResultAsync<void, Error> {
+    return unarchive(id, this.#context);
   }
 }
