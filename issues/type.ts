@@ -23,7 +23,7 @@ export type IssueStatus = Output<typeof IssueStatus>;
 export const IssueStatus = merge([
   IdName,
   object({
-    is_closed: boolean(),
+    is_closed: optional(boolean()),
   }),
 ]);
 
@@ -80,9 +80,9 @@ const inputIssueSchema = object({
   done_ratio: number(),
   is_private: boolean(),
   estimated_hours: union([number(), nullType()]),
-  total_estimated_hours: union([number(), nullType()]),
-  spent_hours: number(),
-  total_spent_hours: number(),
+  total_estimated_hours: optional(union([number(), nullType()])),
+  spent_hours: optional(number()),
+  total_spent_hours: optional(number()),
   created_on: string(),
   updated_on: string(),
   closed_on: union([string(), nullType()]),
