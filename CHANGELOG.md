@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0](https://github.com/Omochice/deno-redmine/compare/0.6.0...0.7.0) (2023-11-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* fix some issue schema field ([#34](https://github.com/Omochice/deno-redmine/issues/34))
+
+### Bug Fixes
+
+* fix some issue schema field ([#34](https://github.com/Omochice/deno-redmine/issues/34)) ([f735589](https://github.com/Omochice/deno-redmine/commit/f73558972e39ee4a681e15318f0568627857e1cd))
+
 ## [0.6.0](https://github.com/Omochice/deno-redmine/compare/0.5.0...0.6.0) (2023-11-08)
 
 
