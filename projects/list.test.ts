@@ -1,7 +1,7 @@
 import { fetchList } from "./list.ts";
 import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.1/mod.ts";
-import { join } from "https://deno.land/std@0.207.0/path/mod.ts";
-import { assert } from "https://deno.land/std@0.207.0/assert/mod.ts";
+import { join } from "https://deno.land/std@0.208.0/path/mod.ts";
+import { assert } from "https://deno.land/std@0.208.0/assert/mod.ts";
 
 const context = {
   apiKey: "sample",
