@@ -7,7 +7,7 @@ import {
   safeParse,
 } from "https://deno.land/x/valibot@v0.25.0/mod.ts";
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.1.0";
-import { join } from "https://deno.land/std@0.209.0/path/mod.ts";
+import { join } from "https://deno.land/std@0.211.0/path/mod.ts";
 import { type Issue, issueSchema } from "./type.ts";
 import { convertError } from "../error.ts";
 
