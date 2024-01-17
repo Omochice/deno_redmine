@@ -6,7 +6,7 @@ import {
   is,
   object,
   string,
-} from "https://deno.land/x/valibot@v0.25.0/mod.ts";
+} from "https://deno.land/x/valibot@v0.26.0/mod.ts";
 import type { ProjectRequest } from "./type.ts";
 import { convertError } from "../error.ts";
 
