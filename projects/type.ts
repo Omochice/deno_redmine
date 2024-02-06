@@ -10,7 +10,7 @@ import {
   regex,
   string,
   transform,
-} from "https://deno.land/x/valibot@v0.27.1/mod.ts";
+} from "https://deno.land/x/valibot@v0.28.0/mod.ts";
 
 const inputProjectSchema = object({
   id: number(),
