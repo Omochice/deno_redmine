@@ -3,7 +3,7 @@ import {
   boolean,
   type Input,
   merge,
-  nullType,
+  null_,
   number,
   object,
   optional,
@@ -11,7 +11,7 @@ import {
   string,
   transform,
   union,
-} from "https://deno.land/x/valibot@v0.29.0/mod.ts";
+} from "https://deno.land/x/valibot@v0.30.0/mod.ts";
 
 export type IdName = Output<typeof IdName>;
 export const IdName = object({
@@ -42,13 +42,13 @@ const customFieldSchema = union([
   object({
     id: number(),
     name: string(),
-    value: union([string(), nullType()]),
+    value: union([string(), null_()]),
   }),
   object({
     id: number(),
     name: string(),
     multiple: boolean(),
-    value: union([array(string()), nullType()]),
+    value: union([array(string()), null_()]),
   }),
 ]);
 
@@ -71,21 +71,21 @@ const inputIssueSchema = object({
   status: IssueStatus,
   priority: IdName,
   author: IdName,
-  assigned_to: optional(union([IdName, nullType()])),
-  category: optional(union([IdName, nullType()])),
+  assigned_to: optional(union([IdName, null_()])),
+  category: optional(union([IdName, null_()])),
   subject: string(),
-  description: union([string(), nullType()]),
-  start_date: union([string(), nullType()]),
-  due_date: union([string(), nullType()]),
+  description: union([string(), null_()]),
+  start_date: union([string(), null_()]),
+  due_date: union([string(), null_()]),
   done_ratio: number(),
   is_private: boolean(),
-  estimated_hours: union([number(), nullType()]),
-  total_estimated_hours: optional(union([number(), nullType()])),
+  estimated_hours: union([number(), null_()]),
+  total_estimated_hours: optional(union([number(), null_()])),
   spent_hours: optional(number()),
   total_spent_hours: optional(number()),
   created_on: string(),
   updated_on: string(),
-  closed_on: union([string(), nullType()]),
+  closed_on: union([string(), null_()]),
   custom_fields: optional(array(customFieldSchema)),
 });
 
@@ -133,7 +133,7 @@ const inputIncludeSchema = object({
     issue_id: optional(number()),
     issue_to_id: optional(number()),
     relation_type: optional(string()),
-    delay: optional(union([number(), nullType()])),
+    delay: optional(union([number(), null_()])),
   }))),
   journals: optional(array(object({
     id: number(),
@@ -144,7 +144,7 @@ const inputIncludeSchema = object({
     details: array(object({
       property: string(),
       name: string(),
-      old_value: union([string(), nullType()]),
+      old_value: union([string(), null_()]),
       new_value: string(),
     })),
   }))),
