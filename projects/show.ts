@@ -1,5 +1,5 @@
 import { object, safeParse } from "https://deno.land/x/valibot@v0.30.0/mod.ts";
-import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.1.0";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.1";
 import { join } from "https://deno.land/std@0.223.0/path/mod.ts";
 import { type Project, projectSchema } from "./type.ts";
 import type { Context } from "../context.ts";

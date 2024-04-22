@@ -1,4 +1,4 @@
-import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.1.0";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.1";
 import { join } from "https://deno.land/std@0.223.0/path/mod.ts";
 import type { Context } from "../context.ts";
 import type { ProjectRequest } from "./type.ts";
