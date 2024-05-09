@@ -1,6 +1,6 @@
 import { listIssues } from "./list.ts";
 import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.1/mod.ts";
-import { join } from "jsr:@std/path@0.223.0";
+import { join } from "jsr:@std/path@0.224.0";
 import { assert } from "jsr:@std/assert@0.223.0";
 
 const context = {
