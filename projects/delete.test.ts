@@ -1,10 +1,10 @@
 import { deleteProject } from "./delete.ts";
 import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.1/mod.ts";
-import { join } from "https://deno.land/std@0.223.0/path/mod.ts";
+import { join } from "jsr:@std/path@0.223.0";
 import {
   assert,
   assertEquals,
-} from "https://deno.land/std@0.223.0/assert/mod.ts";
+} from "jsr:@std/assert@0.223.0";
 
 const context = {
   apiKey: "sample",
