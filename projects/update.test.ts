@@ -1,7 +1,7 @@
 import { update } from "./update.ts";
 import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.1/mod.ts";
 import { join } from "jsr:@std/path@0.225.1";
-import { assert, assertEquals } from "jsr:@std/assert@0.225.1";
+import { assert, assertEquals } from "jsr:@std/assert@0.225.2";
 
 const urlTable = new Map([
   [1, {
