@@ -4,7 +4,7 @@ import {
   object,
   string,
 } from "https://deno.land/x/valibot@v0.30.0/mod.ts";
-import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.1";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.2";
 import { join } from "jsr:@std/path@0.225.1";
 import type { Context } from "../context.ts";
 import { convertError } from "../error.ts";
