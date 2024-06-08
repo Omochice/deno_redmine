@@ -1,5 +1,5 @@
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.2";
-import { join } from "jsr:@std/path@0.225.1";
+import { join } from "jsr:@std/path@0.225.2";
 import type { Context } from "../context.ts";
 import type { ProjectRequest } from "./type.ts";
 import {

@@ -1,6 +1,6 @@
 import { deleteProject } from "./delete.ts";
 import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.1/mod.ts";
-import { join } from "jsr:@std/path@0.225.1";
+import { join } from "jsr:@std/path@0.225.2";
 import { assert, assertEquals } from "jsr:@std/assert@0.226.0";
 
 const context = {
