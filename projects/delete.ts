@@ -3,7 +3,7 @@ import {
   is,
   object,
   string,
-} from "https://deno.land/x/valibot@v0.30.0/mod.ts";
+} from "https://deno.land/x/valibot@v0.33.3/mod.ts";
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.2";
 import { join } from "jsr:@std/path@0.225.2";
 import type { Context } from "../context.ts";
