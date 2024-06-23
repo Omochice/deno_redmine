@@ -11,7 +11,7 @@ import {
   string,
   transform,
   union,
-} from "https://deno.land/x/valibot@v0.30.0/mod.ts";
+} from "jsr:@valibot/valibot@0.30.0";
 
 export type IdName = Output<typeof IdName>;
 export const IdName = object({
