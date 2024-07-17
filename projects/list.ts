@@ -5,7 +5,7 @@ import {
   object,
   safeParse,
 } from "jsr:@valibot/valibot@0.30.0";
-import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@6.2.2";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.0.0";
 import { join } from "jsr:@std/path@0.225.2";
 import { type Project, projectSchema } from "./type.ts";
 import type { Context } from "../context.ts";
