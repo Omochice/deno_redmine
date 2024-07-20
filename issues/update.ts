@@ -1,7 +1,7 @@
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.0.0";
 import { Context } from "../context.ts";
 import { Issue } from "./type.ts";
-import { join } from "jsr:@std/path@0.225.2";
+import { join } from "jsr:@std/path@1.0.1";
 import { array, is, object, string } from "jsr:@valibot/valibot@0.30.0";
 import { convertError } from "../error.ts";
 
