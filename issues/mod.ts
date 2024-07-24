@@ -3,6 +3,7 @@ import type { Issue } from "./type.ts";
 import { listIssues, type Option } from "./list.ts";
 import { type Include, show } from "./show.ts";
 import { update, type UpdateOption } from "./update.ts";
+import { createIssue, type Issue as InputIssue } from "./create.ts";
 
 export class Client {
   readonly #context: Context;
@@ -41,5 +42,14 @@ export class Client {
     issue: Partial<Issue & UpdateOption>,
   ): ReturnType<typeof update> {
     return update(id, issue, this.#context);
+  }
+
+  /**
+   * Create the issue
+   *
+   * @param issue The issue object
+   */
+  create(issue: InputIssue): ReturnType<typeof createIssue> {
+    return createIssue(this.#context, issue);
   }
 }
