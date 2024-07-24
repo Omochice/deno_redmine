@@ -18,7 +18,7 @@ const responseSchema = object({
   limit: number(),
 });
 
-type Option = {
+export type Option = {
   limit: number;
   include: "attachment" | "relations";
   issueId: number[] | number;

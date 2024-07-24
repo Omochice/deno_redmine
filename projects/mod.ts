@@ -9,8 +9,8 @@ import { type ProjectUpdateInformation, update } from "./update.ts";
 import { deleteProject } from "./delete.ts";
 import { archive, unarchive } from "./archive.ts";
 
-export class ProjectClient {
-  #context;
+export class Client {
+  readonly #context: Context;
 
   constructor(context: Context) {
     this.#context = context;
