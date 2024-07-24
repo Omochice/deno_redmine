@@ -9,3 +9,11 @@ export function convertError(
     return new errorInstance(errorMessage, { cause: e });
   };
 }
+
+export class UnprocessableEntityError extends Error {
+  cause: Response;
+  constructor(response: Response) {
+    super(response.statusText);
+    this.cause = response;
+  }
+}
