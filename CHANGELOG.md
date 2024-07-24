@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/Omochice/deno-redmine/compare/0.7.0...v0.8.0) (2024-07-24)
+
+
+### Features
+
+* add tracker ([#82](https://github.com/Omochice/deno-redmine/issues/82)) ([dd7facc](https://github.com/Omochice/deno-redmine/commit/dd7facc8e25a86c734d74afaff2a301c7f8a3ac1))
+
 ## [0.7.0](https://github.com/Omochice/deno-redmine/compare/0.6.0...0.7.0) (2023-11-13)
 
 
