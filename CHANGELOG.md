@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/Omochice/deno-redmine/compare/v0.9.0...v0.9.1) (2024-07-24)
+
+
+### Bug Fixes
+
+* add missing ci id ([#93](https://github.com/Omochice/deno-redmine/issues/93)) ([ed2a4ad](https://github.com/Omochice/deno-redmine/commit/ed2a4ad9e66fb9e4991d572433666bf5cb643781))
+
 ## [0.9.0](https://github.com/Omochice/deno-redmine/compare/v0.8.0...v0.9.0) (2024-07-24)
 
 
