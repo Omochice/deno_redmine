@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   release-please:
@@ -18,3 +19,16 @@ jobs:
           release-type: simple
           package-name: deno_redmine
           include-v-in-tag: false
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          fetch-depth: 0
+      - name: Setup deno
+        uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Bump up jsr.json
+        run: deno run --allow-write --allow-read internal/bumpup.ts jsr.json --next ${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Upload Release Artifact
+        run: deno publish --allow-dirty --config jsr.json
+        if: ${{ steps.release.outputs.release_created }}

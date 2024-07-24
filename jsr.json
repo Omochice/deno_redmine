@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@omochice/redmine",
+  "version": "unknown",
+  "exports": "./mod.ts",
+  "publish": {
+    "exclude": [
+      "internal"
+    ]
+  }
+}

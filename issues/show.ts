@@ -9,7 +9,7 @@ const schema = object({
   issue: showIssueSchema,
 });
 
-type Include =
+export type Include =
   | "children"
   | "attachments"
   | "relations"

@@ -5,7 +5,7 @@ import { join } from "jsr:@std/path@1.0.1";
 import { array, is, object, string } from "jsr:@valibot/valibot@0.30.0";
 import { convertError } from "../error.ts";
 
-type UpdateOption = {
+export type UpdateOption = {
   notes?: string;
   private_notes?: boolean;
 };
