@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.3.0";
+import { http, HttpResponse } from "npm:msw@2.3.4";
 
 export const validHandler = [
   http.get("http://redmine.example.com/issues/1.json", () => {
