@@ -4,8 +4,14 @@
   "version": "unknown",
   "exports": "./mod.ts",
   "publish": {
+    "include": [
+      "README.md",
+      "LICENSE",
+      "./**/*.ts"
+    ],
     "exclude": [
-      "internal"
+      "./**/*.test.ts",
+      "./**/*.mock.ts"
     ]
   }
 }
