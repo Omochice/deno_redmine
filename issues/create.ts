@@ -1,12 +1,13 @@
 import {
   array,
   boolean,
-  type Input,
+  type InferInput,
+  type InferOutput,
   number,
   object,
   optional,
-  type Output,
   parse,
+  pipe,
   string,
   transform,
 } from "jsr:@valibot/valibot@0.36.0";
@@ -32,27 +33,29 @@ const inputIssueSchema = object({
   customFields: optional(array(object({}))),
 });
 
-function normalizeIssue(input: Output<typeof inputIssueSchema>) {
-  return {
-    project_id: input.projectId,
-    tracker_id: input.trackerId,
-    status_id: input.statusId,
-    priprity_id: input.priorityId,
-    subject: input.subject,
-    description: input.description,
-    category_id: input.categoryId,
-    fixed_version_id: input.fixedVersionId,
-    assigned_to_id: input.assignedToId,
-    parent_issue_id: input.parentIssueId,
-    watcher_user_ids: input.watcherUserIds,
-    is_private: input.isPriavte,
-    estimated_hours: input.estimatedHours,
-    custom_fields: input.customFields,
-  };
-}
+const normalizeIssue = transform(
+  (input: InferOutput<typeof inputIssueSchema>) => {
+    return {
+      project_id: input.projectId,
+      tracker_id: input.trackerId,
+      status_id: input.statusId,
+      priprity_id: input.priorityId,
+      subject: input.subject,
+      description: input.description,
+      category_id: input.categoryId,
+      fixed_version_id: input.fixedVersionId,
+      assigned_to_id: input.assignedToId,
+      parent_issue_id: input.parentIssueId,
+      watcher_user_ids: input.watcherUserIds,
+      is_private: input.isPriavte,
+      estimated_hours: input.estimatedHours,
+      custom_fields: input.customFields,
+    };
+  },
+);
 
-const issueSchema = transform(inputIssueSchema, normalizeIssue);
-export type Issue = Input<typeof issueSchema>;
+const issueSchema = pipe(inputIssueSchema, normalizeIssue);
+export type Issue = InferInput<typeof issueSchema>;
 
 /**
  * Create issue

@@ -1,116 +1,128 @@
 import {
   array,
   boolean,
-  type Input,
-  merge,
+  custom,
+  type InferOutput,
   null_,
   number,
   object,
   optional,
-  type Output,
+  pipe,
   string,
   transform,
   union,
 } from "jsr:@valibot/valibot@0.36.0";
 
-export type IdName = Output<typeof IdName>;
+export type IdName = InferOutput<typeof IdName>;
 export const IdName = object({
   id: number(),
   name: string(),
 });
 
-export type IssueStatus = Output<typeof IssueStatus>;
-export const IssueStatus = merge([
-  IdName,
-  object({
+export type IssueStatus = InferOutput<typeof IssueStatus>;
+export const IssueStatus = object({
+  ...IdName.entries,
+  ...object({
     is_closed: optional(boolean()),
-  }),
-]);
+  }).entries,
+});
 
-const convertDate = (input: string | null | undefined): Date | undefined => {
-  if (input == null) {
-    return undefined;
-  }
-  const date = new Date(input);
-  if (date.toString() === "Invalid Date") {
-    return undefined;
-  }
-  return date;
-};
+const dateLikeString = pipe(
+  string(),
+  custom((input) => {
+    if (typeof input !== "string") {
+      return false;
+    }
+    return !isNaN(Date.parse(input));
+  }),
+  transform((input) => new Date(input)),
+);
+
+function toUndefined<T>(input: T | null | undefined): T | undefined {
+  return input ?? undefined;
+}
 
 const customFieldSchema = union([
   object({
     id: number(),
     name: string(),
-    value: union([string(), null_()]),
+    value: pipe(
+      union([string(), null_()]),
+      transform(toUndefined),
+    ),
   }),
   object({
     id: number(),
     name: string(),
     multiple: boolean(),
-    value: union([array(string()), null_()]),
+    value: pipe(
+      union([array(string()), null_()]),
+      transform(toUndefined),
+    ),
   }),
 ]);
 
-const convertCustomField = (
-  customField: Input<typeof customFieldSchema> | null | undefined,
-) => {
-  if (customField == null) {
-    return undefined;
-  }
-  return {
-    ...customField,
-    value: customField.value == null ? undefined : customField.value,
-  };
-};
-
-const inputIssueSchema = object({
+export const issueSchema = object({
   id: number(),
   project: IdName,
   tracker: IdName,
   status: IssueStatus,
   priority: IdName,
   author: IdName,
-  assigned_to: optional(union([IdName, null_()])),
-  category: optional(union([IdName, null_()])),
+  assigned_to: pipe(
+    optional(union([IdName, null_()])),
+    transform(toUndefined),
+  ),
+  category: pipe(
+    optional(union([IdName, null_()])),
+    transform(toUndefined),
+  ),
   subject: string(),
-  description: union([string(), null_()]),
-  start_date: union([string(), null_()]),
-  due_date: union([string(), null_()]),
+  description: pipe(
+    union([string(), null_()]),
+    transform(toUndefined),
+  ),
+  start_date: pipe(
+    union([dateLikeString, null_()]),
+    transform(toUndefined),
+  ),
+  due_date: pipe(
+    union([dateLikeString, null_()]),
+    transform(toUndefined),
+  ),
   done_ratio: number(),
   is_private: boolean(),
-  estimated_hours: union([number(), null_()]),
-  total_estimated_hours: optional(union([number(), null_()])),
-  spent_hours: optional(number()),
-  total_spent_hours: optional(number()),
-  created_on: string(),
-  updated_on: string(),
-  closed_on: union([string(), null_()]),
-  custom_fields: optional(array(customFieldSchema)),
+  estimated_hours: pipe(
+    union([number(), null_()]),
+    transform(toUndefined),
+  ),
+  total_estimated_hours: pipe(
+    optional(union([number(), null_()])),
+    transform(toUndefined),
+  ),
+  spent_hours: pipe(
+    optional(number()),
+    transform(toUndefined),
+  ),
+  total_spent_hours: pipe(
+    optional(number()),
+    transform(toUndefined),
+  ),
+  created_on: dateLikeString,
+  updated_on: dateLikeString,
+  closed_on: pipe(
+    union([dateLikeString, null_()]),
+    transform(toUndefined),
+  ),
+  custom_fields: pipe(
+    optional(array(customFieldSchema)),
+    transform(toUndefined),
+  ),
 });
 
-function normalizeIssue(input: Output<typeof inputIssueSchema>) {
-  return {
-    ...input,
-    assigned_to: input.assigned_to ?? undefined,
-    category: input.category ?? undefined,
-    description: input.description ?? undefined,
-    start_date: convertDate(input.start_date ?? undefined),
-    due_date: convertDate(input.due_date ?? undefined),
-    estimated_hours: input.estimated_hours ?? undefined,
-    total_estimated_hours: input.total_spent_hours ?? undefined,
-    created_on: convertDate(input.created_on),
-    updated_on: convertDate(input.updated_on),
-    closed_on: convertDate(input.closed_on ?? undefined),
-    custom_fields: input.custom_fields?.map(convertCustomField),
-  };
-}
+export type Issue = InferOutput<typeof issueSchema>;
 
-export const issueSchema = transform(inputIssueSchema, normalizeIssue);
-
-export type Issue = Output<typeof issueSchema>;
-
-const inputIncludeSchema = object({
+export const includeSchema = object({
   changesets: optional(array(string())),
   children: optional(array(object({
     id: number(),
@@ -125,7 +137,7 @@ const inputIncludeSchema = object({
     description: string(),
     content_url: string(),
     author: IdName,
-    created_on: string(),
+    created_on: dateLikeString,
     thumbnail_url: optional(string()),
   }))),
   relations: optional(array(object({
@@ -133,7 +145,10 @@ const inputIncludeSchema = object({
     issue_id: optional(number()),
     issue_to_id: optional(number()),
     relation_type: optional(string()),
-    delay: optional(union([number(), null_()])),
+    delay: pipe(
+      optional(union([number(), null_()])),
+      transform(toUndefined),
+    ),
   }))),
   journals: optional(array(object({
     id: number(),
@@ -144,7 +159,10 @@ const inputIncludeSchema = object({
     details: array(object({
       property: string(),
       name: string(),
-      old_value: union([string(), null_()]),
+      old_value: pipe(
+        union([string(), null_()]),
+        transform(toUndefined),
+      ),
       new_value: string(),
     })),
   }))),
@@ -152,40 +170,9 @@ const inputIncludeSchema = object({
   allowed_statuses: optional(array(IssueStatus)),
 });
 
-function normalizeInclude(input: Output<typeof inputIncludeSchema>) {
-  return {
-    changesets: input.changesets,
-    children: input.children,
-    attachments: input.attachments?.map((attachment) => {
-      return {
-        ...attachment,
-        created_on: new Date(attachment.created_on),
-      };
-    }),
-    relations: input.relations?.map((relation) => ({
-      ...relation,
-      delay: relation.delay ?? undefined,
-    })),
-    journals: input.journals?.map((journal) => ({
-      ...journal,
-      details: journal.details.map((detail) => ({
-        ...detail,
-        old_value: detail.old_value ?? undefined,
-      })),
-    })),
-  };
-}
+export const showIssueSchema = object({
+  ...issueSchema.entries,
+  ...includeSchema.entries,
+});
 
-export const includeSchema = transform(inputIncludeSchema, normalizeInclude);
-
-export const showIssueSchema = transform(
-  merge([issueSchema, includeSchema]),
-  (input) => {
-    return {
-      ...normalizeIssue(input),
-      ...normalizeInclude(input),
-    };
-  },
-);
-
-export type ShowIssue = Output<typeof showIssueSchema>;
+export type ShowIssue = InferOutput<typeof showIssueSchema>;
