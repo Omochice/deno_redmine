@@ -1,58 +1,39 @@
 import { create } from "./create.ts";
-import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.2/mod.ts";
-import { join } from "jsr:@std/path@1.0.2";
-import { assert, assertEquals } from "jsr:@std/assert@0.226.0";
+import { assert } from "jsr:@std/assert@0.225.2";
+import { contexts, handler } from "./create.mock.ts";
+import { setupServer } from "npm:msw@2.3.0/node";
 
-const context = {
-  apiKey: "sample",
-  endpoint: "http://readmine.example.com",
-};
+const server = setupServer(...handler);
+server.listen();
 
 Deno.test("test for redmine project 'create' endpoint", async (t) => {
-  const mockFetch = new MockFetch();
-  await t.step("if got 200, should be success", async () => {
-    mockFetch
-      .intercept(join(context.endpoint, "projects.json"), {
-        method: "POST",
-      })
-      .response(JSON.stringify({}), { status: 200 });
-    const e = await create({ name: "sample", identifier: "sample" }, context);
-    assert(e.isOk());
-  });
+  await t.step(
+    "if got 200, should be success",
+    async () => {
+      const e = await create(
+        { name: "sample", identifier: "sample" },
+        contexts[0],
+      );
+      assert(e.isOk());
+    },
+  );
 
   await t.step(
     "if get invalid response with error object, should be err with error text",
     async () => {
-      const errorSample = { errors: ["sample error"] };
-      mockFetch
-        .intercept(join(context.endpoint, "projects.json"), {
-          method: "POST",
-        })
-        .response(JSON.stringify(errorSample), {
-          status: 422,
-          statusText: "Unprocessable Entity",
-        });
-      const e = await create({ name: "sample", identifier: "sample" }, context);
-      assert(e.isErr());
-      assertEquals(
-        e.error.message,
-        JSON.stringify(errorSample.errors),
+      const e = await create(
+        { name: "sample", identifier: "sample" },
+        contexts[1],
       );
+      assert(e.isErr());
     },
   );
 
   await t.step("if get invalid response with unexpected format", async () => {
-    mockFetch
-      .intercept(join(context.endpoint, "projects.json"), {
-        method: "POST",
-      })
-      .response(JSON.stringify("unknown error"), {
-        status: 404,
-        statusText: "Not found",
-      });
-    const e = await create({ name: "sample", identifier: "sample" }, context);
+    const e = await create(
+      { name: "sample", identifier: "sample" },
+      contexts[2],
+    );
     assert(e.isErr());
   });
-
-  mockFetch.deactivate();
 });

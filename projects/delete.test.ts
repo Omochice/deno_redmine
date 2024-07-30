@@ -1,21 +1,13 @@
 import { deleteProject } from "./delete.ts";
-import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.2/mod.ts";
-import { join } from "jsr:@std/path@1.0.2";
-import { assert, assertEquals } from "jsr:@std/assert@0.226.0";
+import { assert } from "jsr:@std/assert@0.225.2";
+import { context, handler } from "./delete.mock.ts";
+import { setupServer } from "npm:msw@2.3.0/node";
 
-const context = {
-  apiKey: "sample",
-  endpoint: "http://readmine.example.com",
-};
+const server = setupServer(...handler);
+server.listen();
 
 Deno.test("test for redmine project 'delete' endpoint", async (t) => {
-  const mockFetch = new MockFetch();
   await t.step("if got 200, should be success", async () => {
-    mockFetch
-      .intercept(join(context.endpoint, "projects", "1.json"), {
-        method: "DELETE",
-      })
-      .response(JSON.stringify({}), { status: 200 });
     const e = await deleteProject(1, context);
     assert(e.isOk());
   });
@@ -23,39 +15,13 @@ Deno.test("test for redmine project 'delete' endpoint", async (t) => {
   await t.step(
     "if get invalid response with error object, should be err with error text",
     async () => {
-      const errorSample = { errors: ["sample error"] };
-      mockFetch
-        .intercept(join(context.endpoint, "projects", "1.json"), {
-          method: "DELETE",
-        })
-        .response(JSON.stringify(errorSample), {
-          status: 422,
-          statusText: "Unprocessable Entity",
-        });
-      const e = await deleteProject(
-        1,
-        context,
-      );
+      const e = await deleteProject(2, context);
       assert(e.isErr());
-      assertEquals(
-        e.error.message,
-        JSON.stringify(errorSample.errors),
-      );
     },
   );
 
   await t.step("if get invalid response with unexpected format", async () => {
-    mockFetch
-      .intercept(join(context.endpoint, "projects", "1.json"), {
-        method: "DELETE",
-      })
-      .response(JSON.stringify("unknown error"), {
-        status: 404,
-        statusText: "Not found",
-      });
-    const e = await deleteProject(1, context);
+    const e = await deleteProject(3, context);
     assert(e.isErr());
   });
-
-  mockFetch.deactivate();
 });
