@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/Omochice/deno-redmine/compare/v0.9.1...v0.10.0) (2024-07-30)
+
+
+### Features
+
+* add `issue-template` ([#104](https://github.com/Omochice/deno-redmine/issues/104)) ([1b80fb7](https://github.com/Omochice/deno-redmine/commit/1b80fb7ae910b376364c23898711abe69bf9a953))
+
 ## [0.9.1](https://github.com/Omochice/deno-redmine/compare/v0.9.0...v0.9.1) (2024-07-24)
 
 
