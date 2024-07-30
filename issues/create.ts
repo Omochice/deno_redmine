@@ -10,7 +10,7 @@ import {
   pipe,
   string,
   transform,
-} from "jsr:@valibot/valibot@0.36.0";
+} from "jsr:@valibot/valibot@0.37.0";
 import { join } from "jsr:@std/url@1.0.0-rc.2";
 import { Context } from "../context.ts";
 import { UnprocessableEntityError } from "../error.ts";

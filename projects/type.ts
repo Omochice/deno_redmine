@@ -13,7 +13,7 @@ import {
   string,
   transform,
   unknown,
-} from "jsr:@valibot/valibot@0.36.0";
+} from "jsr:@valibot/valibot@0.37.0";
 
 const dateLikeString = pipe(
   string(),
