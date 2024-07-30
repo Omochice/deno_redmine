@@ -1,5 +1,5 @@
 import { archive, unarchive } from "./archive.ts";
-import { assert } from "jsr:@std/assert@0.225.2";
+import { assert } from "jsr:@std/assert@1.0.1";
 
 import { context, handler } from "./archive.mock.ts";
 import { setupServer } from "npm:msw@2.3.4/node";
