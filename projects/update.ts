@@ -2,7 +2,7 @@ import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.0.0";
 import { join } from "jsr:@std/path@1.0.2";
 import type { Context } from "../context.ts";
 import type { ProjectRequest } from "./type.ts";
-import { array, is, object, string } from "jsr:@valibot/valibot@0.36.0";
+import { array, is, object, string } from "jsr:@valibot/valibot@0.37.0";
 import { convertError } from "../error.ts";
 
 const errorSchema = object({
