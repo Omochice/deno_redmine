@@ -1,38 +1,13 @@
 import { show } from "./show.ts";
-import { MockFetch } from "https://deno.land/x/deno_mock_fetch@1.0.2/mod.ts";
-import { join } from "jsr:@std/path@1.0.2";
-import { assert } from "jsr:@std/assert@0.226.0";
+import { context, handler } from "./show.mock.ts";
+import { setupServer } from "npm:msw@2.3.0/node";
+import { assert } from "jsr:@std/assert@0.225.2";
 
-const context = {
-  apiKey: "sample",
-  endpoint: "http://readmine.example.com",
-};
-
-const sampleProject = {
-  id: 1,
-  name: "sample project name",
-  identifier: "sample",
-  description: "sample project",
-  homepage: "",
-  status: 1,
-  is_public: true,
-  inherit_members: false,
-  enable_new_ticket_message: undefined,
-  new_ticket_message: undefined,
-  default_version: undefined,
-  created_on: "1970-01-01T00:00:00.000Z",
-  updated_on: "1971-01-01T00:00:00.000Z",
-  parent: undefined,
-} as const;
+const server = setupServer(...handler);
+server.listen();
 
 Deno.test("test for redmine project 'show' endpoint", async (t) => {
-  const mockFetch = new MockFetch();
   await t.step("if got 200, should return ok", async () => {
-    mockFetch
-      .intercept(join(context.endpoint, "projects", "1.json"), {
-        method: "GET",
-      })
-      .response(JSON.stringify({ project: sampleProject }), { status: 200 });
     const e = await show(1, context);
     assert(e.isOk());
   });
@@ -40,19 +15,8 @@ Deno.test("test for redmine project 'show' endpoint", async (t) => {
   await t.step(
     "if get invalid response with error object, should be err with error text",
     async () => {
-      const errorSample = { errors: ["sample error"] };
-      mockFetch
-        .intercept(join(context.endpoint, "projects", "1.json"), {
-          method: "GET",
-        })
-        .response(JSON.stringify(errorSample), {
-          status: 422,
-          statusText: "Unprocessable Entity",
-        });
-      const e = await show(1, context);
+      const e = await show(2, context);
       assert(e.isErr());
     },
   );
-
-  mockFetch.deactivate();
 });
