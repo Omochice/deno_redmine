@@ -1,10 +1,10 @@
 import {
+  type InferOutput,
   nullable,
   number,
   object,
-  type Output,
   string,
-} from "jsr:@valibot/valibot@0.30.0";
+} from "jsr:@valibot/valibot@0.36.0";
 
 export const trackerSchema = object({
   id: number(),
@@ -16,4 +16,4 @@ export const trackerSchema = object({
   description: nullable(string()),
 });
 
-export type Tracker = Output<typeof trackerSchema>;
+export type Tracker = InferOutput<typeof trackerSchema>;

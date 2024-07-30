@@ -1,4 +1,4 @@
-import { array, object, parse } from "jsr:@valibot/valibot@0.30.0";
+import { array, object, parse } from "jsr:@valibot/valibot@0.36.0";
 import { ResultAsync } from "npm:neverthrow@7.0.0";
 import { join } from "jsr:@std/url@1.0.0-rc.2";
 import { type Tracker, trackerSchema } from "./type.ts";
