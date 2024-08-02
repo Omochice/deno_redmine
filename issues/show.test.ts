@@ -1,5 +1,5 @@
 import { show } from "./show.ts";
-import { assert } from "jsr:@std/assert@1.0.1";
+import { assert } from "jsr:@std/assert@1.0.2";
 
 import { context, invalidHandler, validHandler } from "./show.mock.ts";
 import { setupServer } from "npm:msw@2.3.5/node";
