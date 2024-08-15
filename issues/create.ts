@@ -14,7 +14,7 @@ import {
 import { join } from "jsr:@std/url@1.0.0-rc.3";
 import { Context } from "../context.ts";
 import { UnprocessableEntityError } from "../error.ts";
-import { ResultAsync } from "npm:neverthrow@7.0.0";
+import { ResultAsync } from "npm:neverthrow@7.0.1";
 
 const inputIssueSchema = object({
   projectId: number(),
