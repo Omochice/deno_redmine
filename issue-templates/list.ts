@@ -1,5 +1,5 @@
 import type { Context } from "../context.ts";
-import { parse } from "jsr:@valibot/valibot@0.37.0";
+import { parse } from "jsr:@valibot/valibot@0.38.0";
 import { ResultAsync } from "npm:neverthrow@7.0.1";
 import { join } from "jsr:@std/url@1.0.0-rc.3";
 import { convertError } from "../error.ts";
