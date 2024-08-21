@@ -22,7 +22,7 @@ jobs:
         with:
           config-file: .github/release-please-config.json
           manifest-file: .github/release-please-manifest.json
-      - uses: denoland/setup-deno@ba9dcf3bc3696623d1add6a2f5181ee1b5143de5 # v1.3.0
+      - uses: denoland/setup-deno@916edb9a40fd86d1ff57b758807ebe57242f7407 # 1.4.0
       - name: Upload Release Artifact
         run: deno publish --config jsr.json --allow-slow-types
         if: ${{ steps.release.outputs.release_created }}
