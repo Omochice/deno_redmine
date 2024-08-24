@@ -5,7 +5,7 @@ import {
   number,
   object,
   safeParse,
-} from "jsr:@valibot/valibot@0.38.0";
+} from "jsr:@valibot/valibot@0.39.0";
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.0.1";
 import { join } from "jsr:@std/path@1.0.2";
 import { type Issue, issueSchema } from "./type.ts";
