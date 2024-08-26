@@ -1,5 +1,5 @@
 import { listIssues } from "./list.ts";
-import { assert } from "jsr:@std/assert@1.0.2";
+import { assert } from "jsr:@std/assert@1.0.3";
 
 import { context, invalidHandler, validHandler } from "./list.mock.ts";
 import { setupServer } from "npm:msw@2.3.5/node";
