@@ -1,4 +1,4 @@
-import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.0.1";
+import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.1.0";
 import { Context } from "../context.ts";
 import { Issue } from "./type.ts";
 import { join } from "jsr:@std/path@1.0.3";
