@@ -8,7 +8,7 @@ import {
   pipe,
   string,
   transform,
-} from "jsr:@valibot/valibot@0.39.0";
+} from "jsr:@valibot/valibot@0.40.0";
 
 const dateLikeString = pipe(
   string(),

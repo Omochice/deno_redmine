@@ -1,4 +1,4 @@
-import { object, safeParse } from "jsr:@valibot/valibot@0.39.0";
+import { object, safeParse } from "jsr:@valibot/valibot@0.40.0";
 import { errAsync, okAsync, ResultAsync } from "npm:neverthrow@7.1.0";
 import { join } from "jsr:@std/path@1.0.3";
 import { type Project, projectSchema } from "./type.ts";
