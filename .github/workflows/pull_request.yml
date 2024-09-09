@@ -12,4 +12,4 @@ jobs:
       - name: Run tests with coverage report output
         run:
           deno task test:coverage
-      - uses: k1LoW/octocov-action@5213913fe329368ab9dafa16f18f4f3cce1062f0 # v1.3.0
+      - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
