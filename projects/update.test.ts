@@ -1,6 +1,6 @@
 import { update } from "./update.ts";
 import { context, handler } from "./update.mock.ts";
-import { setupServer } from "npm:msw@2.4.4/node";
+import { setupServer } from "npm:msw@2.4.5/node";
 import { assert } from "jsr:@std/assert@1.0.4";
 
 const server = setupServer(...handler);
