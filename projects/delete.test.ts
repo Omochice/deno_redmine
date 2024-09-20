@@ -1,7 +1,7 @@
 import { deleteProject } from "./delete.ts";
 import { assert } from "jsr:@std/assert@1.0.5";
 import { context, handler } from "./delete.mock.ts";
-import { setupServer } from "npm:msw@2.4.8/node";
+import { setupServer } from "npm:msw@2.4.9/node";
 
 const server = setupServer(...handler);
 server.listen();
