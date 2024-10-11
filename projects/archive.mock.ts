@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.4.9";
+import { http, HttpResponse } from "npm:msw@2.4.10";
 
 export const handler = [
   http.put("http://redmine.example.com/projects/1/archive.json", () => {

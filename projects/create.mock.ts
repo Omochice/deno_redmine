@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.4.9";
+import { http, HttpResponse } from "npm:msw@2.4.10";
 
 export const handler = [
   http.post("http://redmine1.example.com/projects.json", () => {
