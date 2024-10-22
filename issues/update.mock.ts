@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.4.13";
+import { http, HttpResponse } from "npm:msw@2.5.0";
 
 export const handler = [
   {
