@@ -1,5 +1,5 @@
 import { deleteProject } from "./delete.ts";
-import { assert } from "jsr:@std/assert@1.0.7";
+import { assert } from "jsr:@std/assert@1.0.8";
 import { context, handler } from "./delete.mock.ts";
 import { setupServer } from "npm:msw@2.6.4/node";
 
