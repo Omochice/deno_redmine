@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.6.5";
+import { http, HttpResponse } from "npm:msw@2.6.6";
 
 export const handler = [
   http.delete("http://redmine.example.com/projects/1.json", () => {
