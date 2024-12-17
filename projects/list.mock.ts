@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "npm:msw@2.6.9";
+import { http, HttpResponse } from "npm:msw@2.7.0";
 
 const sampleProjects = [
   {
