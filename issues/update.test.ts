@@ -1,5 +1,5 @@
 import { update } from "./update.ts";
-import { assert } from "jsr:@std/assert@1.0.9";
+import { assert } from "jsr:@std/assert@1.0.10";
 import { context, handler } from "./update.mock.ts";
 import { setupServer } from "npm:msw@2.7.0/node";
 
